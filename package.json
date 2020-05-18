@@ -1,0 +1,36 @@
+{
+  "name": "ethereum-workbench",
+  "version": "0.0.1-alpha.0",
+  "description": "🔮 A collection of experiments in Ethereum.",
+  "main": "dist",
+  "repository": "https://github.com/cawfree/uniswap-tools",
+  "author": "Alex Thomas (@cawfree) <hello@cawfree.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "babel-node": "node_modules/.bin/babel-node",
+    "compile-contract": "node_modules/.bin/solcjs -o dist/ --abi --bin",
+    "deploy": "yarn babel-node scripts/deploy"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-react": "^7.9.4",
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
+    "leasot": "^10.6.0",
+    "prettier": "^2.0.5"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "ethereumjs-tx": "^2.1.2",
+    "fs": "^0.0.1-security",
+    "js-sha3": "^0.8.0",
+    "solc": "^0.6.8",
+    "type-check": "^0.4.0",
+    "web3": "^1.2.7",
+    "yargs": "^15.3.1"
+  }
+}
