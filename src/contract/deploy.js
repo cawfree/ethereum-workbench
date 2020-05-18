@@ -43,7 +43,7 @@ export default (web3, from, path) => {
                 from,
                 gas: 3000000,
               })
-              .then(({options: {address}}) => [contractName, address]);
+              .then(({options: {address}}) => [contractName, new web3.eth.Contract(abi, address)]);
           },
         )
     )
