@@ -47,31 +47,31 @@ const {contracts:{[name]: result}} = JSON.parse(solc.compile(JSON.stringify({
   }
 })));
 
-// XXX: We only support a single contract during deployment.
-if (Object.keys(result).length > 1 || Object.keys(result).length < 1) {
-  throw new Error(`Expected a single contract declaration, but encountered ${Object.keys(result.length)}.`);
-}
-const [contractName] = Object.keys(result);
-const contract = result[contractName];
-
-const keystore = JSON.parse(WEB3_KEYSTORE_JSON);
-const {address: from} = keystore;
-const {privateKey} = web3.eth.accounts.decrypt(
-  keystore,
-  WEB3_KEYSTORE_PASSWORD,
-);
-
-web3.eth.accounts.wallet.add(privateKey);
-
 // TODO: gasEstimates
 (async () => {
-  const {abi, evm: {bytecode:{object}}} = contract;
-  const gasPrice = await web3.eth.getGasPrice();
-  const result = await new web3.eth.Contract(abi)
-    .deploy({data: `0x${object}`})
-    .send({
-      from,
-      gas: 3000000,
-    });
-  console.log('Deployed!');
+
+  const keystore = JSON.parse(WEB3_KEYSTORE_JSON);
+  const {address: from} = keystore;
+  const {privateKey} = web3.eth.accounts.decrypt(
+    keystore,
+    WEB3_KEYSTORE_PASSWORD,
+  );
+  
+  web3.eth.accounts.wallet.add(privateKey);
+
+  const [...entries] = Object.entries(result);
+
+  for (let i = 0; i < entries.length; i += 1) {
+    const [contractName, contract] = entries[i];
+    const {abi, evm: {bytecode:{object}}} = contract;
+    const gasPrice = await web3.eth.getGasPrice();
+    const result = await new web3.eth.Contract(abi)
+      .deploy({data: `0x${object}`})
+      .send({
+        from,
+        gas: 3000000,
+      });
+    console.log(`Successfully deployed "${contractName}".`);
+  }
+
 })();
