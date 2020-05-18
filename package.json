@@ -10,7 +10,11 @@
   "scripts": {
     "babel-node": "node_modules/.bin/babel-node",
     "compile-contract": "node_modules/.bin/solcjs -o dist/ --abi --bin",
-    "deploy": "yarn babel-node scripts/deploy"
+    "deploy": "yarn babel-node scripts/deploy",
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -27,7 +31,6 @@
     "dotenv": "^8.2.0",
     "ethereumjs-tx": "^2.1.2",
     "fs": "^0.0.1-security",
-    "js-sha3": "^0.8.0",
     "solc": "^0.6.8",
     "type-check": "^0.4.0",
     "web3": "^1.2.7",
