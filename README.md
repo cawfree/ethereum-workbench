@@ -35,5 +35,6 @@ yarn deploy --contract=contracts/01-HelloWorld.sol
 **Usage**
 
 ```bash
-yarn transfer --target 0x15Da8F49ee51566378c7791A0501FD67A2b466Ef --wei 10000 --gasLimit 10000000 --network rinkeby
+# e.g. initialize a Gnosis multisig wallet
+yarn transfer --target 0x15Da8F49ee51566378c7791A0501FD67A2b466Ef --wei 320009800290918 --gasLimit 10000000 --network rinkeby
 ```

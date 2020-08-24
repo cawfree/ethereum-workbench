@@ -56,7 +56,7 @@ const placeTransaction = (tx, chain) => new Promise(
 
   const gasPrice = await getGasPrice();
   console.log(`The gas price is ${gasPrice}.`);
-  const transactionCount = await getTransactionCount(target);
+  const transactionCount = await web3.eth.getTransactionCount(address);
   console.log(`The address ${target} currently has ${transactionCount} transactions.`);
   
   const tx = {
