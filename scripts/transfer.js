@@ -46,10 +46,12 @@ const placeTransaction = (tx, chain) => new Promise(
 );
 
 (async () => {
-  const {target, wei, gasLimit} = argv;
+  const {target, wei, gasLimit, network} = argv;
 
   if (!typeCheck("String", target) || target.length <= 0) {
     throw new Error(`Expected non-empty String target, encountered ${target}.`);
+  } else if (!typeCheck("String", network) || network.length <= 0) {
+    throw new Error(`Expected non-empty String network, encountered ${network}.`);
   }
 
   const gasPrice = await getGasPrice();
@@ -66,6 +68,6 @@ const placeTransaction = (tx, chain) => new Promise(
     data: null,
   };
 
-  const result = await placeTransaction(tx, "rinkeby");
+  const result = await placeTransaction(tx, network);
   console.log(result);
 })();
