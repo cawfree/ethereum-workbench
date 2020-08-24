@@ -2,10 +2,12 @@
 
 import "@babel/polyfill";
 
+import { Transaction as Tx } from "ethereumjs-tx";
 import {argv} from "yargs";
-import {web3, address} from "./setup";
+import {typeCheck} from "type-check";
+import BigNumber from "bignumber.js";
 
-console.log("i am going to pay a balance on rinkeby to a specified address");
+import {web3, address, privateKey} from "./setup";
 
 const getGasPrice = () => new Promise(
   (resolve, reject) => web3.eth.getGasPrice(
@@ -18,17 +20,52 @@ const getGasPrice = () => new Promise(
   ),
 );
 
+const getTransactionCount = address => new Promise(
+  (resolve, reject) => web3.eth.getTransactionCount(
+    address,
+    (err, count) => {
+      if (err) {
+        return reject(err);
+      }
+      return resolve(count);
+    },
+  ),
+);
+
+const placeTransaction = (tx, chain) => new Promise(
+  (resolve, reject) => {
+    const txn = new Tx(tx, { chain });
+    txn.sign(Buffer.from(privateKey.substring(2), "hex"));
+
+    return web3.eth.sendSignedTransaction(
+      `0x${txn.serialize().toString("hex")}`,
+    )
+      .on('receipt', resolve)
+      .on("error", reject);
+  },
+);
+
 (async () => {
+  const {target, wei, gasLimit} = argv;
+
+  if (!typeCheck("String", target) || target.length <= 0) {
+    throw new Error(`Expected non-empty String target, encountered ${target}.`);
+  }
+
   const gasPrice = await getGasPrice();
   console.log(`The gas price is ${gasPrice}.`);
+  const transactionCount = await getTransactionCount(target);
+  console.log(`The address ${target} currently has ${transactionCount} transactions.`);
+  
+  const tx = {
+    to: target,
+    nonce: web3.utils.toHex(transactionCount),
+    value: web3.utils.toHex(wei),
+    gasLimit: web3.utils.toHex(gasLimit),
+    gasPrice: web3.utils.toHex(new BigNumber(gasPrice).multipliedBy("1.1").toString()),
+    data: null,
+  };
+
+  const result = await placeTransaction(tx, "rinkeby");
+  console.log(result);
 })();
-
-
-
-
-//import {web3, address} from "./setup";
-//import {deploy} from "../src";
-//
-//const {contract: path} = argv;
-//
-//deploy(web3, address, path);

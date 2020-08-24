@@ -16,6 +16,7 @@ To access the Web3 API, you can easily use [**Infura**](https://infura.io/) as a
 If you need some ether to experiment on the testnet, try one of the **faucets** below:
 
   - [**Rinkeby Faucet**](https://faucet.rinkeby.io/)
+    - You'll need to [**make a public request**](https://twitter.com/cawfree/status/1297930888550981633).
   - [**Ropsten Faucet**](https://faucet.ropsten.be/)
   - [**Kovan Faucet**](https://faucet.kovan.network/)
 
@@ -27,4 +28,12 @@ If you need some ether to experiment on the testnet, try one of the **faucets** 
 
 ```bash
 yarn deploy --contract=contracts/01-HelloWorld.sol
+```
+
+### Transfer Funds (`yarn transfer`)
+
+**Usage**
+
+```bash
+yarn transfer --target 0x15Da8F49ee51566378c7791A0501FD67A2b466Ef --wei 10000 --gasLimit 10000000
 ```
