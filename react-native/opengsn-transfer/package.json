@@ -1,7 +1,6 @@
 {
   "dependencies": {
-    "@react-native-anywhere/gsn": "^0.0.1-alpha.1",
-    "@react-native-anywhere/web3": "^0.0.1-alpha.2",
+    "@react-native-anywhere/anywhere": "^0.0.1-alpha.4",
     "buffer": "^5.6.0",
     "ethers": "^5.0.11",
     "expo": "~38.0.0",
@@ -16,7 +15,9 @@
     "truffle": "^5.1.43"
   },
   "scripts": {
+    "postinstall": "npx @react-native-anywhere/anywhereify",
     "start-gsn": "npx @babel/node scripts/start-gsn",
+    "compile": "npx truffle compile",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
